@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { AudioController } = require('../util/audio-controller');
+const { playTrackCommand } = require('../util/audio-command');
 
 const FILE_PATH = '/media/HDDEXTRA/Downloads/DainosourBot/resources/dainosourTudo.mp3';
 
@@ -8,8 +8,6 @@ module.exports = {
         .setName('dino')
         .setDescription('Ah Pedro, tá de sacanagem!'),
     async execute(interaction) {
-        const audioController = AudioController.getInstance(interaction.member.voice.channel);
-        audioController.playTrack(FILE_PATH)
-        await interaction.reply({ content: 'Tá de sacanagem', ephemeral: true });
+        await playTrackCommand(interaction, FILE_PATH, 'Tá de sacanagem');
     },
 };

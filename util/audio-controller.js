@@ -1,5 +1,6 @@
+const got = require('got');
+const { Readable } = require('stream');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, NoSubscriberBehavior, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice');
-
 
 class AudioController {
 
@@ -36,7 +37,7 @@ class AudioController {
         AudioController.controllerInstance = undefined
     }
 
-    playTrack(pathToFile, retryNo) {
+    async playTrack(audioPath, retryNo) {
         if (retryNo == undefined) {
             retryNo = 0;
         }
@@ -46,8 +47,6 @@ class AudioController {
         }
 
         let connection = getVoiceConnection(this.channel.guild.id);
-        const resource = createAudioResource(pathToFile); 
-
         if (!connection) {
             connection = joinVoiceChannel({
                 channelId: this.channel.id,
@@ -58,9 +57,10 @@ class AudioController {
         }
 
         if(connection.state.status === VoiceConnectionStatus.Ready) {
+            const resource = audioPath.includes('http') ? this.createAudioResourceFromUrl(audioPath) : createAudioResource(audioPath); 
             this.enqueuePlay(resource);
         } else {
-            setTimeout(() => this.playTrack(pathToFile, ++retryNo), 300);
+            setTimeout(() => this.playTrack(audioPath, ++retryNo), 300);
         }        
     }
 
@@ -72,6 +72,11 @@ class AudioController {
         }
     }
 
-}
+    createAudioResourceFromUrl(url) {
+        const stream = got.stream(url);
+        return createAudioResource(stream);
+    }
+
+}   
 
 module.exports = { AudioController };
