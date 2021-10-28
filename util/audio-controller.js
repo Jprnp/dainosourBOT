@@ -38,6 +38,10 @@ class AudioController {
     }
 
     async playTrack(audioPath, retryNo) {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+
         if (retryNo == undefined) {
             retryNo = 0;
         }

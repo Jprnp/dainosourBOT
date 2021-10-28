@@ -2,6 +2,7 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 require('dotenv/config');
 const { generateDependencyReport } = require('@discordjs/voice');
+const { handleStateChange } = require('./handlers/voice-state-update-handler')
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES] });
 
@@ -31,6 +32,10 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
     }
 });
+
+client.on('voiceStateUpdate', async (oldState, newState) => {
+    await handleStateChange(oldState, newState);
+})
 
 console.log(generateDependencyReport());
 

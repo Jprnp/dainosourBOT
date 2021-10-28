@@ -10,4 +10,5 @@ module.exports = {
     async execute(interaction) {
         await playTrackCommand(interaction, FILE_PATH, 'Tá de sacanagem');
     },
+    filePath: FILE_PATH,
 };
