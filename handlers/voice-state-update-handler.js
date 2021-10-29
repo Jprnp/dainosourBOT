@@ -1,7 +1,7 @@
 const { AudioController } = require('../util/audio-controller');
-const { filePath: dinoFilePath } = require('../commands/dainosour');
-const { filePath: tzDaCoro } = require('../commands/tz_da_coro');
-const { filePath: yameteFilePath } = require('../commands/yamete');
+const { filePath: dinoFilePath, volume: dinoVolume } = require('../commands/dainosour');
+const { filePath: tzDaCoro, volume: tzVolume } = require('../commands/tz_da_coro');
+const { filePath: yameteFilePath, volume: yameteVolume } = require('../commands/yamete');
 
 module.exports = {
     async handleStateChange(oldState, newState) {
@@ -11,19 +11,19 @@ module.exports = {
             const nickname = newState.member.nickname || newState.member.user.username;
             switch(newState.member.user.id) {
                 case '180302316145082368':
-                    audioController.playTrack(dinoFilePath);
+                    audioController.playTrack(dinoFilePath, dinoVolume);
                     channel.send(`${nickname} entrou e tá de sacanagem`)
                     break;
                 case '243070073349210112':
-                    audioController.playTrack(tzDaCoro);
+                    audioController.playTrack(tzDaCoro, tzVolume);
                     channel.send(`${nickname} entrou com um peixe no bolso`)
                     break;
                 case '277210762613751808':
-                    audioController.playTrack(dinoFilePath);
+                    audioController.playTrack(dinoFilePath, dinoVolume);
                     channel.send(`${nickname} entrou e tá de sacanagem`)
                     break;
                 case '465601161098166272':
-                    audioController.playTrack(yameteFilePath);
+                    audioController.playTrack(yameteFilePath, yameteVolume);
                     channel.send(`${nickname} saiu da chamada`)
                     break;
             }

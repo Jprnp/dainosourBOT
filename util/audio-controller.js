@@ -37,11 +37,7 @@ class AudioController {
         AudioController.controllerInstance = undefined
     }
 
-    async playTrack(audioPath, retryNo) {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
-        }
-
+    async playTrack(audioPath, volume, retryNo) {
         if (retryNo == undefined) {
             retryNo = 0;
         }
@@ -58,13 +54,18 @@ class AudioController {
                 adapterCreator: this.channel.guild.voiceAdapterCreator,
             });
             connection.subscribe(this.player);
+        } else {
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
+            }
         }
 
         if(connection.state.status === VoiceConnectionStatus.Ready) {
-            const resource = audioPath.includes('http') ? this.createAudioResourceFromUrl(audioPath) : createAudioResource(audioPath); 
+            const resource = audioPath.includes('http') ? this.createAudioResourceFromUrl(audioPath) : createAudioResource(audioPath, { inlineVolume: true });
+            resource.volume.setVolume(volume);
             this.enqueuePlay(resource);
         } else {
-            setTimeout(() => this.playTrack(audioPath, ++retryNo), 300);
+            setTimeout(() => this.playTrack(audioPath, volume, ++retryNo), 300);
         }        
     }
 
@@ -78,7 +79,7 @@ class AudioController {
 
     createAudioResourceFromUrl(url) {
         const stream = got.stream(url);
-        return createAudioResource(stream);
+        return createAudioResource(stream, { inlineVolume: true });
     }
 
 }   
