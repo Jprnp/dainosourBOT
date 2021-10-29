@@ -2,6 +2,7 @@ const { AudioController } = require('../util/audio-controller');
 const { filePath: dinoFilePath, volume: dinoVolume } = require('../commands/dainosour');
 const { filePath: tzDaCoro, volume: tzVolume } = require('../commands/tz_da_coro');
 const { filePath: yameteFilePath, volume: yameteVolume } = require('../commands/yamete');
+const { filePath: hamburguerFilePath, volume: hamburguerVolume } = require('../commands/hamburguer');
 
 module.exports = {
     async handleStateChange(oldState, newState) {
@@ -19,8 +20,8 @@ module.exports = {
                     channel.send(`${nickname} entrou com um peixe no bolso`)
                     break;
                 case '277210762613751808':                                                  // PEDRO
-                    audioController.playTrack(dinoFilePath, dinoVolume);
-                    channel.send(`${nickname} entrou e tá de sacanagem`)
+                    audioController.playTrack(hamburguerFilePath, hamburguerVolume);
+                    channel.send(`${nickname} entrou comendo hamburguer`)
                     break;
                 case '465601161098166272':                                                  // PP
                     audioController.playTrack(yameteFilePath, yameteVolume);

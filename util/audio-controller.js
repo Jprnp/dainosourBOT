@@ -1,6 +1,7 @@
 const got = require('got');
 const { Readable } = require('stream');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, NoSubscriberBehavior, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice');
+const fs = require('fs');
 
 class AudioController {
 
@@ -38,6 +39,10 @@ class AudioController {
     }
 
     async playTrack(audioPath, volume, retryNo) {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+
         if (retryNo == undefined) {
             retryNo = 0;
         }
@@ -54,14 +59,10 @@ class AudioController {
                 adapterCreator: this.channel.guild.voiceAdapterCreator,
             });
             connection.subscribe(this.player);
-        } else {
-            if (this.timeoutId) {
-                clearTimeout(this.timeoutId);
-            }
         }
 
         if(connection.state.status === VoiceConnectionStatus.Ready) {
-            const resource = audioPath.includes('http') ? this.createAudioResourceFromUrl(audioPath) : createAudioResource(audioPath, { inlineVolume: true });
+            const resource = audioPath.includes('http') ? this.createAudioResourceFromUrl(audioPath) : this.createAudioResourceFromFile(audioPath);
             resource.volume.setVolume(volume);
             this.enqueuePlay(resource);
         } else {
@@ -79,6 +80,11 @@ class AudioController {
 
     createAudioResourceFromUrl(url) {
         const stream = got.stream(url);
+        return createAudioResource(stream, { inlineVolume: true });
+    }
+
+    createAudioResourceFromFile(filePath) {
+        const stream = fs.createReadStream(filePath);
         return createAudioResource(stream, { inlineVolume: true });
     }
 
