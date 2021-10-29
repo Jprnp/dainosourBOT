@@ -16,7 +16,7 @@ module.exports = {
                     break;
                 case '243070073349210112':
                     audioController.playTrack(frangoFilePath);
-                    channel.send(`${nickname} entrou comendo um francaipira`)
+                    channel.send(`${nickname} entrou com um peixe no bolso`)
                     break;
                 case '277210762613751808':
                     audioController.playTrack(dinoFilePath);
