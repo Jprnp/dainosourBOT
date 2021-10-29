@@ -1,6 +1,6 @@
 const { AudioController } = require('../util/audio-controller');
 const { filePath: dinoFilePath } = require('../commands/dainosour');
-const { filePath: frangoFilePath } = require('../commands/francaipira');
+const { filePath: tzDaCoro } = require('../commands/tz_da_coro');
 const { filePath: yameteFilePath } = require('../commands/yamete');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
                     channel.send(`${nickname} entrou e tá de sacanagem`)
                     break;
                 case '243070073349210112':
-                    audioController.playTrack(frangoFilePath);
+                    audioController.playTrack(tzDaCoro);
                     channel.send(`${nickname} entrou com um peixe no bolso`)
                     break;
                 case '277210762613751808':
