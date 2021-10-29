@@ -26,23 +26,26 @@ class AudioController {
     }
 
     scheduleDisconnect() {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
-        }
+        this.clearDisconnectTimeout();
         this.timeoutId = setTimeout(() => this.disconnect(), 10000);//300000);
     }
 
     disconnect() {
+        this.clearDisconnectTimeout();
         const connection = getVoiceConnection(this.channel.guild.id);
         connection.destroy();
         AudioController.controllerInstance = undefined
     }
 
-    async playTrack(audioPath, volume, retryNo) {
+    clearDisconnectTimeout() {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
+    }
 
+    async playTrack(audioPath, volume, retryNo) {
+        this.clearDisconnectTimeout();
+        
         if (retryNo == undefined) {
             retryNo = 0;
         }
