@@ -44,6 +44,7 @@ class AudioController {
     }
 
     async playTrack(audioPath, volume, retryNo) {
+        console.log(audioPath);
         this.clearDisconnectTimeout();
         
         if (retryNo == undefined) {

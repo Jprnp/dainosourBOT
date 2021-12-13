@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-require('dotenv/config');
+require('dotenv').config();
 const { generateDependencyReport } = require('@discordjs/voice');
 const { handleStateChange } = require('./handlers/voice-state-update-handler')
 

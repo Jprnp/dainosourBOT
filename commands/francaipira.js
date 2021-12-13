@@ -1,7 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { playTrackCommand } = require('../util/audio-command');
+const path = require('path');
+const appDir = path.dirname(require.main.filename);
 
-const FILE_PATH = '/media/HDDEXTRA/Downloads/DainosourBot/resources/francaipira2.mp3';
+const FILE_PATH = path.join(appDir, 'resources', 'francaipira2.mp3');
 const VOLUME = 1;
 
 module.exports = {
