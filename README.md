@@ -1,0 +1,12 @@
+# DAINOSOUR BOT
+
+## DEPENDENCIAS GLOBAIS
+
+- libtool
+- ffmpeg
+
+## Chaves .env
+
+- CLIENT_ID
+- OS_CRIA_GUILD_ID
+- BOT_TOKEN
